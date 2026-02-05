@@ -9,7 +9,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git branch: "${GIT_BRANCH}", url: "${GIT_REPO}"
+                git clone -b main git@github.com:nirajdevopsproject/capstone-project.git
             }
         }
 
