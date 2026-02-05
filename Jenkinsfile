@@ -13,13 +13,7 @@ pipeline {
                 git branch: "${GIT_BRANCH}", url: "${GIT_REPO}"
             }
         }
-        stage('Access AWS') {
-            steps {
-                // The plugin automatically sets AWS_ACCESS_KEY_ID & AWS_SECRET_ACCESS_KEY env vars
-                withAWS(credentials: 'aws-access-keys', region: 'us-east-1') {
-                    sh 'aws sts get-caller-identity'
-                    // Run other AWS CLI or SDK commands here
-                }
+
         stage('Intializing ec2 module') {
             steps {
                 dir('module/ec2') {
