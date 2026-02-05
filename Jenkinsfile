@@ -15,14 +15,14 @@ pipeline {
         }
         stage('Intializing ec2 module') {
             steps {
-                dir('module/ec2') {
+                dir('module/ec2/') {
                     sh 'terraform init'
                 }
             }
         }
         stage('Intializing rds module') {
             steps {
-                dir('module/rds') {
+                dir('module/rds/') {
                     sh 'terraform init'
                 }
             }
@@ -30,7 +30,7 @@ pipeline {
 
         stage('Intializing vpc module') {
             steps {
-                dir('module/vpc') {
+                dir('module/vpc/') {
                     sh 'terraform init'
                 }
             }
@@ -38,7 +38,7 @@ pipeline {
         
         stage('Intializing s3-dr module') {
             steps {
-                dir('module/s3-dr') {
+                dir('module/s3-dr/') {
                     sh 'terraform init'
                 }
             }
