@@ -13,7 +13,6 @@ pipeline {
                 git branch: "${GIT_BRANCH}", url: "${GIT_REPO}"
             }
         }
-
         stage('Intializing ec2 module') {
             steps {
                 dir('module/ec2') {
@@ -46,6 +45,7 @@ pipeline {
         }
         stage('Deploy Dev') {
             steps {
+                withAWS(credentials:"aws-terraform-creds")
                 dir('env/dev') {
                     sh 'terraform init'
                     sh 'terraform apply -auto-approve'
@@ -55,7 +55,7 @@ pipeline {
 
         stage('Deploy Staging') {
             steps {
-                withAWS(credentials: 'aws-jenkins')
+                withAWS(credentials:"aws-terraform-creds")
                 dir('env/staging') {
                     sh 'terraform init'
                     sh 'terraform apply -auto-approve'
@@ -71,6 +71,7 @@ pipeline {
 
         stage('Deploy Prod') {
             steps {
+                withAWS(credentials:"aws-terraform-creds")
                 dir('env/prod') {
                     sh 'terraform init'
                     sh 'terraform apply -auto-approve'
