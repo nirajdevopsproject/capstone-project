@@ -54,3 +54,7 @@ variable "instance_class" {
 variable "allocated_storage"{
   type = number
 }
+variable "alert_email" {
+  type        = string
+  description = "Email to receive CloudWatch alerts"
+}

@@ -15,3 +15,4 @@ db_username = "admin"
 db_password = "admin1234"
 instance_class = "db.t3.micro"
 allocated_storage = 20
+alert_email = "your-email@example.com"
