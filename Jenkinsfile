@@ -1,21 +1,49 @@
 pipeline {
     agent any
 
+    environment {
+        GIT_REPO = 'https://github.com/nirajdevopsproject/capstone-project'
+        GIT_BRANCH = 'main'
+    }
+
     stages {
-        stage('Clone Git Repository') {
+        stage('Checkout') {
             steps {
-                // Clone the repository
-                git branch: 'main', url: 'https://github.com/nirajdevopsproject/capstone-project.git'
+                // Jenkins handles Git clone automatically
+                git branch: "${GIT_BRANCH}", url: "${GIT_REPO}"
             }
         }
 
-        stage('Verify Clone') {
+        stage('Deploy Dev') {
             steps {
-                // Show current directory
-                sh 'pwd'
-                
-                // List all files to confirm repo clone
-                sh 'ls -la'
+                dir('env/dev') {
+                    sh 'terraform init'
+                    sh 'terraform apply -auto-approve'
+                }
+            }
+        }
+
+        stage('Deploy Staging') {
+            steps {
+                dir('env/staging') {
+                    sh 'terraform init'
+                    sh 'terraform apply -auto-approve'
+                }
+            }
+        }
+
+        stage('Approve Prod') {
+            steps {
+                input message: 'Approve deployment to PROD?'
+            }
+        }
+
+        stage('Deploy Prod') {
+            steps {
+                dir('env/prod') {
+                    sh 'terraform init'
+                    sh 'terraform apply -auto-approve'
+                }
             }
         }
     }
