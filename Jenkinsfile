@@ -1,49 +1,25 @@
 pipeline {
     agent any
 
-    environment {
-        GIT_REPO = 'https://github.com/nirajdevopsproject/capstone-project'
-        GIT_BRANCH = 'main'
+    stages {
+        stage('Clone Git Repository') {
+            steps {
+                // Cloning the repository from GitHub
+                git branch: 'main', url: 'https://github.com/your-username/your-repo.git'
+            }
+        }
+
+        stage('List Files') {
+            steps {
+                // Optional: List files to verify clone
+                sh 'ls -la'
+            }
+        }
     }
 
-    stages {
-        stage('Checkout') {
-            steps {
-                sh 'git clone -b main git@github.com:nirajdevopsproject/capstone-project.git'
-            }
-        }
-
-        stage('Deploy Dev') {
-            steps {
-                dir('env/dev') {
-                    sh 'terraform init'
-                    sh 'terraform apply -auto-approve'
-                }
-            }
-        }
-
-        stage('Deploy Staging') {
-            steps {
-                dir('env/staging') {
-                    sh 'terraform init'
-                    sh 'terraform apply -auto-approve'
-                }
-            }
-        }
-
-        stage('Approve Prod') {
-            steps {
-                input message: 'Approve deployment to PROD?'
-            }
-        }
-
-        stage('Deploy Prod') {
-            steps {
-                dir('env/prod') {
-                    sh 'terraform init'
-                    sh 'terraform apply -auto-approve'
-                }
-            }
+    post {
+        always {
+            echo 'Git clone stage finished.'
         }
     }
 }
