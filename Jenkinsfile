@@ -45,7 +45,7 @@ pipeline {
         }
         stage('Deploy Dev') {
             steps {
-                withAWS(credentials:"aws-terraform-creds")
+                withCredentials([awsCredentials(credentialsId: 'aws-terraform-creds', accessKeyVariable: 'AWS_ACCESS_KEY_ID', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY')])
                 dir('env/dev') {
                     sh 'terraform init'
                     sh 'terraform apply -auto-approve'
@@ -55,7 +55,7 @@ pipeline {
 
         stage('Deploy Staging') {
             steps {
-                withAWS(credentials:"aws-terraform-creds")
+                withCredentials([awsCredentials(credentialsId: 'aws-terraform-creds', accessKeyVariable: 'AWS_ACCESS_KEY_ID', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY')])
                 dir('env/staging') {
                     sh 'terraform init'
                     sh 'terraform apply -auto-approve'
@@ -71,7 +71,7 @@ pipeline {
 
         stage('Deploy Prod') {
             steps {
-                withAWS(credentials:"aws-terraform-creds")
+               withCredentials([awsCredentials(credentialsId: 'aws-terraform-creds', accessKeyVariable: 'AWS_ACCESS_KEY_ID', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY')])
                 dir('env/prod') {
                     sh 'terraform init'
                     sh 'terraform apply -auto-approve'
