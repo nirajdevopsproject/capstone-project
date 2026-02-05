@@ -13,36 +13,6 @@ pipeline {
                 git branch: "${GIT_BRANCH}", url: "${GIT_REPO}"
             }
         }
-        stage('Intializing ec2 module') {
-            steps {
-                dir('module/ec2/') {
-                    sh 'terraform init'
-                }
-            }
-        }
-        stage('Intializing rds module') {
-            steps {
-                dir('module/rds/') {
-                    sh 'terraform init'
-                }
-            }
-        }
-
-        stage('Intializing vpc module') {
-            steps {
-                dir('module/vpc/') {
-                    sh 'terraform init'
-                }
-            }
-        }
-        
-        stage('Intializing s3-dr module') {
-            steps {
-                dir('module/s3-dr/') {
-                    sh 'terraform init'
-                }
-            }
-        }
         stage('Deploy Dev') {
             steps {
                 withCredentials(withAWS(credentialsId: 'aws-terraform-creds', accessKeyVariable: 'AWS_ACCESS_KEY_ID', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY')])
