@@ -2,14 +2,13 @@ pipeline {
     agent any
 
     environment {
-        GIT_REPO = 'https://github.com/nirajdevopsproject/capstone-project' // replace with your repo
-        GIT_BRANCH = 'main' // replace with your branch
+        GIT_REPO = 'https://github.com/nirajdevopsproject/capstone-project'
+        GIT_BRANCH = 'main'
     }
 
     stages {
         stage('Checkout') {
             steps {
-                // Clone the repo into the workspace
                 git branch: "${GIT_BRANCH}", url: "${GIT_REPO}"
             }
         }
