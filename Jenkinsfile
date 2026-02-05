@@ -9,26 +9,28 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                // Jenkins handles Git clone automatically
                 git branch: "${GIT_BRANCH}", url: "${GIT_REPO}"
             }
         }
+
         stage('Deploy Dev') {
             steps {
-                withCredentials(withAWS(credentialsId: 'aws-terraform-creds', accessKeyVariable: 'AWS_ACCESS_KEY_ID', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY')])
-                dir('env/dev') {
-                    sh 'terraform init'
-                    sh 'terraform apply -auto-approve'
+                withAWS(credentials: 'aws-terraform-creds', region: 'ap-south-1') {
+                    dir('env/dev') {
+                        sh 'terraform init'
+                        sh 'terraform apply -auto-approve'
+                    }
                 }
             }
         }
 
         stage('Deploy Staging') {
             steps {
-                withCredentials([withAWS(credentialsId: 'aws-terraform-creds', accessKeyVariable: 'AWS_ACCESS_KEY_ID', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY')])
-                dir('env/staging') {
-                    sh 'terraform init'
-                    sh 'terraform apply -auto-approve'
+                withAWS(credentials: 'aws-terraform-creds', region: 'ap-south-1') {
+                    dir('env/staging') {
+                        sh 'terraform init'
+                        sh 'terraform apply -auto-approve'
+                    }
                 }
             }
         }
@@ -41,10 +43,11 @@ pipeline {
 
         stage('Deploy Prod') {
             steps {
-               withCredentials([withAWS(credentialsId: 'aws-terraform-creds', accessKeyVariable: 'AWS_ACCESS_KEY_ID', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY')])
-                dir('env/prod') {
-                    sh 'terraform init'
-                    sh 'terraform apply -auto-approve'
+                withAWS(credentials: 'aws-terraform-creds', region: 'ap-south-1') {
+                    dir('env/prod') {
+                        sh 'terraform init'
+                        sh 'terraform apply -auto-approve'
+                    }
                 }
             }
         }
