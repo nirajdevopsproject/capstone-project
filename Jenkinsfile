@@ -9,7 +9,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git clone -b main git@github.com:nirajdevopsproject/capstone-project.git
+                sh 'git clone -b main git@github.com:nirajdevopsproject/capstone-project.git'
             }
         }
 
