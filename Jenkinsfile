@@ -4,21 +4,19 @@ pipeline {
     stages {
         stage('Clone Git Repository') {
             steps {
+                // Clone the repository
                 git branch: 'main', url: 'https://github.com/nirajdevopsproject/capstone-project.git'
             }
         }
 
         stage('Verify Clone') {
             steps {
-                // List all files to confirm clone
+                // Show current directory
+                sh 'pwd'
+                
+                // List all files to confirm repo clone
                 sh 'ls -la'
             }
-        }
-    }
-
-    post {
-        always {
-            echo 'Pipeline finished.'
         }
     }
 }
